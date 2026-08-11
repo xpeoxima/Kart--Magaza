@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kart Mağazası | Anonim Satış</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .glass-card {
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        .card-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,215,0,0.5);
+            box-shadow: 0 20px 40px rgba(255,215,0,0.1);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #000;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-gold:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+
+    <div class="max-w-3xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-10 pt-8">
+            <h1 class="text-4xl font-bold gold-text mb-2">💳 Kart Mağazası</h1>
+            <p class="text-gray-400">Anonim • Sürətli • Etibarlı</p>
+            <div class="mt-4 inline-block bg-green-900/50 text-green-400 px-4 py-2 rounded-full text-sm">
+                🟢 Onlayn • 24/7 Avtomatik
+            </div>
+        </div>
+
+        <!-- Kart Siyahısı -->
+        <div class="space-y-4 mb-10">
+            
+            <!-- Bronze Kart -->
+            <div class="card-item glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span class="text-4xl">🥉</span>
+                    <div>
+                        <h3 class="text-xl font-bold">Bronze Kart</h3>
+                        <p class="text-gray-400 text-sm">Kart nömrəsi • CVV • Tarix</p>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-2xl font-bold gold-text">0.0003 BTC</p>
+                    <p class="text-gray-500 text-xs">~15 AZN</p>
+                    <button onclick="buyCard('bronze', '0.0003')" class="btn-gold px-6 py-3 rounded-xl mt-2 w-full md:w-auto">
+                        Satın Al
+                    </button>
+                </div>
+            </div>
+
+            <!-- Silver Kart -->
+            <div class="card-item glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <span class="text-4xl">🥈</span>
+                    <div>
+                        <h3 class="text-xl font-bold">Silver Kart</h3>
+                        <p class="text-gray-400 text-sm">Kart • CVV • Tarix • 3D Kod</p>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-2xl font-bold gold-text">0.0006 BTC</p>
+                    <p class="text-gray-500 text-xs">~30 AZN</p>
+                    <button onclick="buyCard('silver', '0.0006')" class="btn-gold px-6 py-3 rounded-xl mt-2 w-full md:w-auto">
+                        Satın Al
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gold Kart -->
+            <div class="card-item glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 border-yellow-500/30">
+                <div class="flex items-center gap-4">
+                    <span class="text-4xl">🥇</span>
+                    <div>
+                        <h3 class="text-xl font-bold">Gold Kart</h3>
+                        <p class="text-gray-400 text-sm">Tam məlumat • 3D • Balans</p>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-2xl font-bold gold-text">0.001 BTC</p>
+                    <p class="text-gray-500 text-xs">~50 AZN</p>
+                    <button onclick="buyCard('gold', '0.001')" class="btn-gold px-6 py-3 rounded-xl mt-2 w-full md:w-auto">
+                        Satın Al
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Ödəniş Bölməsi -->
+        <div id="payment-section" class="glass-card rounded-2xl p-8 text-center hidden">
+            <h2 class="text-2xl font-bold mb-4">💰 Ödəniş</h2>
+            <p class="text-gray-400 mb-2">Seçilmiş paket: <span id="selected-package" class="gold-text font-bold"></span></p>
+            <p class="text-3xl font-bold gold-text mb-6" id="btc-amount"></p>
+            
+            <div class="bg-black/50 rounded-2xl p-6 mb-6">
+                <p class="text-sm text-gray-400 mb-3">Bitcoin göndərin:</p>
+                <div class="bg-gray-900 rounded-xl p-4 break-all text-sm font-mono text-green-400 mb-3" id="btc-address">
+                    bc1qus7e8caghug2m2gkj6wqz4rfhsrndxj9qm5s2k
+                </div>
+                <button onclick="copyAddress()" class="text-blue-400 text-sm hover:underline">
+                    📋 Ünvanı Kopyala
+                </button>
+            </div>
+
+            <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-xl p-4 mb-6">
+                <p class="text-yellow-400 text-sm">⚠️ Ödəniş təsdiqləndikdən sonra kart məlumatları avtomatik göstəriləcək!</p>
+            </div>
+
+            <button onclick="checkPayment()" class="btn-gold px-8 py-4 rounded-xl text-lg w-full">
+                ✅ Ödənişi Təsdiqlə
+            </button>
+            
+            <p class="text-gray-500 text-xs mt-4">Bitcoin şəbəkəsində təsdiqlənmə 10-30 dəqiqə çəkə bilər</p>
+        </div>
+
+        <!-- Nəticə -->
+        <div id="result-section" class="glass-card rounded-2xl p-8 text-center hidden">
+            <div class="text-6xl mb-4">🎉</div>
+            <h2 class="text-2xl font-bold gold-text mb-4">Ödəniş Təsdiqləndi!</h2>
+            <div class="bg-green-900/30 border border-green-500/30 rounded-xl p-6 mb-4">
+                <p class="text-green-400 font-mono text-sm break-all" id="card-data"></p>
+            </div>
+            <button onclick="copyCardData()" class="btn-gold px-6 py-3 rounded-xl">
+                📋 Kart Məlumatlarını Kopyala
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const BTC_ADDRESS = 'bc1qus7e8caghug2m2gkj6wqz4rfhsrndxj9qm5s2k';
+        
+        let currentPackage = '';
+        let currentPrice = '';
+
+        function buyCard(pkg, price) {
+            currentPackage = pkg;
+            currentPrice = price;
+            
+            document.getElementById('selected-package').textContent = 
+                pkg === 'bronze' ? '🥉 Bronze' : 
+                pkg === 'silver' ? '🥈 Silver' : '🥇 Gold';
+            document.getElementById('btc-amount').textContent = price + ' BTC';
+            
+            document.getElementById('payment-section').classList.remove('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            
+            document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyAddress() {
+            navigator.clipboard.writeText(BTC_ADDRESS);
+            alert('✅ Bitcoin ünvanı kopyalandı!');
+        }
+
+        function checkPayment() {
+            document.getElementById('payment-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            
+            const fakeCards = {
+                bronze: '💳 Kart: 4127 0000 0000 1234\n📅 Tarix: 12/28\n🔐 CVV: 123\n\n💰 Balans: Naməlum',
+                silver: '💳 Kart: 5421 0000 0000 5678\n📅 Tarix: 06/27\n🔐 CVV: 456\n🔢 3D Kod: 789012\n\n💰 Balans: Naməlum',
+                gold: '💳 Kart: 4532 0000 0000 9012\n📅 Tarix: 03/29\n🔐 CVV: 789\n🔢 3D Kod: 345678\n👤 Ad: Elvin M.\n📱 Tel: +994XX XXX XX XX\n💰 Balans: ~120 AZN'
+            };
+            
+            document.getElementById('card-data').textContent = fakeCards[currentPackage];
+            document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyCardData() {
+            const data = document.getElementById('card-data').textContent;
+            navigator.clipboard.writeText(data);
+            alert('✅ Kart məlumatları kopyalandı!');
+        }
+    </script>
+</body>
+</html>
